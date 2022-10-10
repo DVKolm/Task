@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
-public class DataService {
+public class CalculateService {
 
     private final InitHolidays initHolidays;
     private static final double averageNumberOfCalendarDays = 29.3;
@@ -29,22 +29,21 @@ public class DataService {
 
         if (vacationDays <= 0) {
             throw new IllegalArgumentException("Vacation days must be greater than 0");
+        } else if (vacationDays > 28) {
+            throw new IllegalArgumentException("The number of vacation days must not exceed 28");
         }
     }
 
-    public Double calculateWithHolidays(double Salary, DateDto date) {
+    public Double calculateWithHolidays(double salary, DateDto date) {
 
         int paidVacationDays = 0;
 
         for (LocalDate dates : date.getDates()) {
-            if (!initHolidays.getHolidaysDate().contains(dates)) {
+            if (!initHolidays.getHolidayDates().contains(dates)) {
                 paidVacationDays++;
             }
         }
-
-        return new BigDecimal((Salary / averageNumberOfCalendarDays) * paidVacationDays)
-                .setScale(2, RoundingMode.DOWN)
-                .doubleValue();
+        return calculate(salary, paidVacationDays);
     }
 
 

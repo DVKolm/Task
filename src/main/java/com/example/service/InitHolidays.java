@@ -21,15 +21,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class InitHolidays {
 
-    private Set<LocalDate> holidaysDate;
+    private Set<LocalDate> holidayDates;
 
     private final ObjectMapper objectMapper;
 
     @PostConstruct
     @SneakyThrows
-    public void initHolidayDates(){
+    public void initHolidayDates() {
         String holidays = Files.readString(Path.of("src/main/resources/holidays.json"));
-        holidaysDate = objectMapper.readValue(holidays, Holidays.class).getHolidayDates()
+        holidayDates = objectMapper.readValue(holidays, Holidays.class).getHolidayDates()
                 .stream().map(LocalDate::parse).collect(Collectors.toSet());
     }
 

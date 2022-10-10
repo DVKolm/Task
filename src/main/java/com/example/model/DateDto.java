@@ -1,14 +1,13 @@
 package com.example.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -27,8 +26,9 @@ public class DateDto {
 
     static class DateDtoDeserializer extends JsonDeserializer<DateDto> {
 
+        @SneakyThrows
         @Override
-        public DateDto deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+        public DateDto deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) {
             JsonNode treeNode = jsonParser.getCodec().readTree(jsonParser);
             String textValue = treeNode.get("dates").toPrettyString();
             String [] dates = textValue
