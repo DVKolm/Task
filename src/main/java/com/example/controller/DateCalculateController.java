@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/calculate")
-public class APIController {
+public class DateCalculateController {
 
     private final CalculateService calculateService;
 
-    public APIController(CalculateService calculateService) {
+    public DateCalculateController(CalculateService calculateService) {
         this.calculateService = calculateService;
     }
 
