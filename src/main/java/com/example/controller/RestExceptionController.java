@@ -17,13 +17,13 @@ public class RestExceptionController {
 
     @ExceptionHandler(DateTimeParseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorInfo parseException() {
+    public ErrorInfo parseException(DateTimeParseException e) {
         ErrorInfo errorInfo = new ErrorInfo(
                 UUID.randomUUID(),
-                "Can't process this request, please enter the following date format: YYYY-MM-DD",
+                e.getMessage() + " Please enter the following date format: YYYY-MM-DD",
                 LocalDateTime.now()
         );
-        log.info("Incorrectly parse format{}", errorInfo.getId());
+        log.info("Incorrectly parse format {}", errorInfo.getId());
         return errorInfo;
     }
 
@@ -35,7 +35,7 @@ public class RestExceptionController {
                 ex.getMessage(),
                 LocalDateTime.now()
         );
-        log.info("Incorrectly entered parameters{}", errorInfo.getId());
+        log.info("Incorrectly entered parameters {}", errorInfo.getId());
         return errorInfo;
 
     }

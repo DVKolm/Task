@@ -12,8 +12,27 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class CalculateService {
 
-    private final InitHolidays initHolidays;
+    private final com.example.service.InitHolidays initHolidays;
     private static final double averageNumberOfCalendarDays = 29.3;
+
+    public Double calculateVacationPay(double avgSalaryPerYear, int vacationDays) {
+        validateInputParameters(avgSalaryPerYear, vacationDays);
+        return new BigDecimal((avgSalaryPerYear / averageNumberOfCalendarDays) * vacationDays)
+                .setScale(2, RoundingMode.DOWN)
+                .doubleValue();
+    }
+
+    public Double holidayPayCalculation(double salary, DateDto dates) {
+
+        int paidVacationDays = 0;
+
+        for (LocalDate date : dates.getDates()) {
+            if (!initHolidays.getHolidayDates().contains(date)) {
+                paidVacationDays++;
+            }
+        }
+        return calculateVacationPay(salary, paidVacationDays);
+    }
 
     private void validateInputParameters(double salary, int vacationDays) {
         if (salary <= 0) {
@@ -25,25 +44,6 @@ public class CalculateService {
         } else if (vacationDays > 28) {
             throw new IllegalArgumentException("The number of vacation days must not exceed 28");
         }
-    }
-
-    public Double calculate(double avgSalaryPerYear, int vacationDays) {
-        validateInputParameters(avgSalaryPerYear, vacationDays);
-        return new BigDecimal((avgSalaryPerYear / averageNumberOfCalendarDays) * vacationDays)
-                .setScale(2, RoundingMode.DOWN)
-                .doubleValue();
-    }
-
-    public Double calculateWithHolidays(double salary, DateDto dates) {
-
-        int paidVacationDays = 0;
-
-        for (LocalDate date : dates.getDates()) {
-            if (!initHolidays.getHolidayDates().contains(date)) {
-                paidVacationDays++;
-            }
-        }
-        return calculate(salary, paidVacationDays);
     }
 
 

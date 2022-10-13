@@ -24,7 +24,7 @@ public class DateCalculateController {
                             @RequestParam("days") int vacationDays) {
 
         log.info("Received a request to calculate the amount of vacation pay");
-        return calculateService.calculate(avgSalaryPerYear, vacationDays);
+        return calculateService.calculateVacationPay(avgSalaryPerYear, vacationDays);
     }
 
     @GetMapping("/holidays")
@@ -32,7 +32,7 @@ public class DateCalculateController {
     public Double calculateWithHolidays(@RequestParam("salary") double avgSalaryPerYear,
                                         @RequestBody DateDto dates) {
         log.info("Vacation pay is calculated taking into account holidays");
-        return calculateService.calculateWithHolidays(avgSalaryPerYear, dates);
+        return calculateService.holidayPayCalculation(avgSalaryPerYear, dates);
     }
 
 }
