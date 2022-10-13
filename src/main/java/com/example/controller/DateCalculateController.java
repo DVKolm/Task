@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.model.DateDto;
-import com.example.service.CalculateService;
+import com.example.service.VacationPayService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,28 +11,28 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/calculate")
 public class DateCalculateController {
 
-    private final CalculateService calculateService;
+    private final VacationPayService vacationPayService;
 
-    public DateCalculateController(CalculateService calculateService) {
-        this.calculateService = calculateService;
+    public DateCalculateController(VacationPayService vacationPayService) {
+        this.vacationPayService = vacationPayService;
     }
 
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Double calculate(@RequestParam("salary") double avgSalaryPerYear,
-                            @RequestParam("days") int vacationDays) {
+    public Double vacationPayCalculation(@RequestParam("salary") double avgSalaryPerYear,
+                                         @RequestParam("days") int vacationDays) {
 
         log.info("Received a request to calculate the amount of vacation pay");
-        return calculateService.calculateVacationPay(avgSalaryPerYear, vacationDays);
+        return vacationPayService.calculateVacationPay(avgSalaryPerYear, vacationDays);
     }
 
     @GetMapping("/holidays")
     @ResponseStatus(HttpStatus.OK)
-    public Double calculateWithHolidays(@RequestParam("salary") double avgSalaryPerYear,
+    public Double holidayPayCalculation(@RequestParam("salary") double avgSalaryPerYear,
                                         @RequestBody DateDto dates) {
         log.info("Vacation pay is calculated taking into account holidays");
-        return calculateService.holidayPayCalculation(avgSalaryPerYear, dates);
+        return vacationPayService.holidayPayCalculation(avgSalaryPerYear, dates);
     }
 
 }

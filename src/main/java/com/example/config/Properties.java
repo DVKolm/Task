@@ -1,25 +1,21 @@
-package com.example.service;
+package com.example.config;
 
-import com.example.model.Holidays;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.SneakyThrows;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
-@Setter
-@Service
-@RequiredArgsConstructor
-public class InitHolidays {
+@Configuration
+@AllArgsConstructor
+public class Properties {
 
     private Set<LocalDate> holidayDates;
 
@@ -29,8 +25,7 @@ public class InitHolidays {
     @SneakyThrows
     public void initHolidayDates() {
         String holidays = Files.readString(Path.of("src/main/resources/holidays.json"));
-        holidayDates = objectMapper.readValue(holidays, Holidays.class).getHolidayDates()
-                .stream().map(LocalDate::parse).collect(Collectors.toSet());
+        holidayDates = objectMapper.readValue(holidays, objectMapper.getTypeFactory().constructCollectionType(Set.class, LocalDate.class));
     }
 
 }

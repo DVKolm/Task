@@ -26,9 +26,9 @@ public class DateDtoDeserializer extends JsonDeserializer<DateDto> {
                 .replaceAll("\\[", "")
                 .replaceAll(" \"", "")
                 .replaceAll("\"", "")
-                .replaceAll("\\]", "")
+                .replaceAll("]", "")
                 .split(",");
-        return new DateDto(Arrays.stream(dates).map(String::trim).map(str -> LocalDate.parse(str)).collect(Collectors.toSet()));
+        return new DateDto(Arrays.stream(dates).map(String::trim).map(LocalDate::parse).collect(Collectors.toSet()));
     }
 }
 

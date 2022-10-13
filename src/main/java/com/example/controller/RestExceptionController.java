@@ -37,7 +37,6 @@ public class RestExceptionController {
         );
         log.info("Incorrectly entered parameters {}", errorInfo.getId());
         return errorInfo;
-
     }
 
 }

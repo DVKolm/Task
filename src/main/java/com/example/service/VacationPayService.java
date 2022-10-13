@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.config.Properties;
 import com.example.model.DateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,10 +11,11 @@ import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
-public class CalculateService {
+public class VacationPayService {
 
-    private final com.example.service.InitHolidays initHolidays;
+    private final Properties properties;
     private static final double averageNumberOfCalendarDays = 29.3;
+
 
     public Double calculateVacationPay(double avgSalaryPerYear, int vacationDays) {
         validateInputParameters(avgSalaryPerYear, vacationDays);
@@ -27,7 +29,7 @@ public class CalculateService {
         int paidVacationDays = 0;
 
         for (LocalDate date : dates.getDates()) {
-            if (!initHolidays.getHolidayDates().contains(date)) {
+            if (!properties.getHolidayDates().contains(date)) {
                 paidVacationDays++;
             }
         }
